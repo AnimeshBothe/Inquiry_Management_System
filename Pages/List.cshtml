@@ -1,0 +1,62 @@
+﻿@page
+@model InquiryApp.Pages.ListModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h2>Inquiry List</h2>
+
+<!-- Table to display inquiries -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Hobbies</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Pincode</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var inquiry in Model.Inquiries)
+        {
+            <tr>
+                <td>@inquiry.Name</td>
+                <td>@inquiry.DateOfBirth.ToShortDateString()</td>
+                <td>@inquiry.Gender</td>
+                <td>@inquiry.Hobbies</td>
+                <td>@inquiry.Address</td>
+                <td>@inquiry.State</td>
+                <td>@inquiry.City</td>
+                <td>@inquiry.Pincode</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination controls -->
+<nav>
+    <ul class="pagination">
+        @if (Model.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./List" asp-route-currentPage="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize">Previous</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                <a class="page-link" asp-page="./List" asp-route-currentPage="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+            </li>
+        }
+
+        @if (Model.CurrentPage < Model.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-page="./List" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
